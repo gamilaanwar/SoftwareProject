@@ -1,10 +1,8 @@
 import { Platform } from 'react-native';
 
 const getBaseUrl = () => {
-  if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:5001/api';
-  }
-  return 'http://192.168.1.136:5001/api';
+  // Use the persistent Ngrok URL
+  return 'https://undoing-purging-manila.ngrok-free.dev/api';
 };
 
 const BASE_URL = getBaseUrl();
