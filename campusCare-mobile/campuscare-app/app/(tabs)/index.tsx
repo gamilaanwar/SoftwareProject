@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Text, View } from 'react-native';
 import { useAuth } from '../../src/context/AuthContext';
 import { api } from '../../src/services/api';
+import { Colors } from '../../src/constants/Colors';
+import { useRouter } from 'expo-router';
 
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const router = useRouter();
 
   const fetchIssues = async () => {
     try {
@@ -37,24 +40,31 @@ export default function DashboardScreen() {
   };
 
   const renderItem = ({ item }: { item: any }) => (
-    <View style={styles.issueCard}>
+    <TouchableOpacity 
+      style={styles.issueCard}
+      onPress={() => router.push(`/ticket/${item.ticket_id}`)}
+    >
       <View style={styles.issueHeader}>
         <Text style={styles.category}>{item.category}</Text>
         <View style={[styles.statusBadge, { backgroundColor: getStatusColor(item.status) }]}>
           <Text style={styles.statusText}>{item.status || 'Pending'}</Text>
         </View>
       </View>
-      <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.location}>
-        {item.building_name}, Floor {item.floor}, Room {item.room_number}
-      </Text>
-      {item.location_notes && (
-        <Text style={styles.locationNotes}>Note: {item.location_notes}</Text>
-      )}
-      <Text style={styles.date}>
-        {new Date(item.created_at).toLocaleDateString()}
-      </Text>
-    </View>
+      <Text style={styles.description} numberOfLines={2}>{item.description}</Text>
+      
+      <View style={styles.locationContainer}>
+        <Text style={styles.location}>
+          {item.building_name}, Floor {item.floor}, Room {item.room_number}
+        </Text>
+      </View>
+
+      <View style={styles.cardFooter}>
+        <Text style={styles.date}>
+          {new Date(item.created_at).toLocaleDateString()}
+        </Text>
+        <Text style={styles.priorityText}>Priority: {item.priority || 'Low'}</Text>
+      </View>
+    </TouchableOpacity>
   );
 
   const getStatusColor = (status: string) => {
@@ -68,29 +78,39 @@ export default function DashboardScreen() {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome, {user?.name}</Text>
-      <Text style={styles.title}>
-        {user?.role === 'facility_manager' ? 'All Campus Issues' : 
-         user?.role === 'worker' ? 'Issues Assigned to You' : 'Your Reported Issues'}
-      </Text>
+      <View style={styles.headerSection}>
+        <Text style={styles.welcome}>Hello, {user?.name}</Text>
+        <Text style={styles.title}>
+          {user?.role === 'facility_manager' ? 'All Campus Issues' : 
+           user?.role === 'worker' ? 'Assigned Tasks' : 'My Reported Issues'}
+        </Text>
+      </View>
 
       <FlatList
         data={issues}
         renderItem={renderItem}
         keyExtractor={(item: any) => item.ticket_id.toString()}
         contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl 
+            refreshing={refreshing} 
+            onRefresh={onRefresh} 
+            colors={[Colors.primary]}
+            tintColor={Colors.primary}
+          />
         }
         ListEmptyComponent={
-          <Text style={styles.emptyText}>No issues reported yet.</Text>
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No issues found.</Text>
+          </View>
         }
       />
     </View>
@@ -100,88 +120,118 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 20,
+    backgroundColor: Colors.background,
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.background,
+  },
+  headerSection: {
+    padding: 20,
+    backgroundColor: Colors.primary,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 8,
   },
   welcome: {
-    fontSize: 18,
-    color: '#666',
-    marginBottom: 5,
+    fontSize: 16,
+    color: Colors.accent,
+    marginBottom: 4,
+    fontWeight: '500',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
+    fontSize: 26,
+    fontWeight: '800',
+    color: Colors.white,
   },
   list: {
-    paddingBottom: 20,
+    padding: 20,
+    paddingBottom: 30,
   },
   issueCard: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: Colors.surface,
+    padding: 18,
+    borderRadius: 20,
+    marginBottom: 16,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.8)',
   },
   issueHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   category: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#007AFF',
+    fontWeight: '700',
+    color: Colors.primary,
   },
   statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
   },
   statusText: {
     color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 11,
+    fontWeight: '800',
+    textTransform: 'uppercase',
   },
   description: {
-    fontSize: 16,
-    color: '#444',
-    marginBottom: 10,
+    fontSize: 15,
+    color: Colors.secondary,
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+  locationContainer: {
+    backgroundColor: '#F0F8F9',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 12,
   },
   location: {
-    fontSize: 14,
-    color: '#666',
-    fontStyle: 'italic',
-  },
-  locationNotes: {
     fontSize: 13,
-    color: '#888',
-    marginTop: 4,
-    paddingLeft: 5,
-    borderLeftWidth: 2,
-    borderLeftColor: '#007AFF',
+    color: Colors.primary,
+    fontWeight: '600',
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
   },
   date: {
     fontSize: 12,
-    color: '#999',
-    marginTop: 10,
-    textAlign: 'right',
+    color: Colors.accent,
+    fontWeight: '500',
+  },
+  priorityText: {
+    fontSize: 12,
+    color: Colors.secondary,
+    fontWeight: '700',
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    marginTop: 60,
   },
   emptyText: {
-    textAlign: 'center',
-    color: '#999',
-    marginTop: 40,
+    color: Colors.secondary,
     fontSize: 16,
+    fontWeight: '600',
   },
 });

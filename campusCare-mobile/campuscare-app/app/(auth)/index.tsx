@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../src/context/AuthContext';
 import { api } from '../../src/services/api';
+import { Colors } from '../../src/constants/Colors';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -46,6 +47,7 @@ export default function LoginScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your email"
+          placeholderTextColor={Colors.accent}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -56,6 +58,7 @@ export default function LoginScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your password"
+          placeholderTextColor={Colors.accent}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -67,7 +70,7 @@ export default function LoginScreen() {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color={Colors.white} />
           ) : (
             <Text style={styles.buttonText}>Login</Text>
           )}
@@ -84,7 +87,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
     padding: 20,
     justifyContent: 'center',
   },
@@ -93,57 +96,69 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#007AFF',
+    fontSize: 40,
+    fontWeight: '800',
+    color: Colors.primary,
+    letterSpacing: 1,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.secondary,
     marginTop: 5,
+    fontWeight: '500',
   },
   form: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    backgroundColor: Colors.surface,
+    padding: 25,
+    borderRadius: 20,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 20,
+    elevation: 5,
   },
   label: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 5,
+    fontWeight: '700',
+    color: Colors.primary,
+    marginBottom: 8,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   input: {
-    height: 50,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 15,
+    height: 55,
+    borderColor: Colors.accent,
+    borderWidth: 1.5,
+    borderRadius: 12,
+    marginBottom: 20,
     paddingHorizontal: 15,
     fontSize: 16,
+    color: Colors.primary,
+    backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#007AFF',
-    height: 50,
-    borderRadius: 5,
+    backgroundColor: Colors.primary,
+    height: 55,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 15,
+    marginBottom: 20,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
   linkText: {
-    color: '#007AFF',
+    color: Colors.secondary,
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: '600',
   },
 });

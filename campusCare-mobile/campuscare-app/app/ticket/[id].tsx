@@ -5,6 +5,7 @@ import { api } from '../../src/services/api';
 import { useAuth } from '../../src/context/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { Colors } from '../../src/constants/Colors';
 
 export default function TicketDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -12,7 +13,6 @@ export default function TicketDetailScreen() {
   const [ticket, setTicket] = useState<any>(null);
   const [workers, setWorkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [comment, setComment] = useState('');
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
@@ -74,18 +74,6 @@ export default function TicketDetailScreen() {
     }
   };
 
-  const addComment = async () => {
-    if (!comment) return;
-    try {
-      await api.issues.addComment(id as string, comment);
-      setComment('');
-      Alert.alert('Success', 'Comment added');
-      fetchTicketDetails();
-    } catch (e) {
-      Alert.alert('Error', 'Failed to add comment');
-    }
-  };
-
   const handleImagePick = async (useCamera: boolean) => {
     const options = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -127,150 +115,467 @@ export default function TicketDetailScreen() {
     }
   };
 
-  if (loading) return <ActivityIndicator style={styles.centered} size="large" />;
-  if (!ticket) return <View style={styles.centered}><Text>Task not found</Text></View>;
+  if (loading) return (
+    <View style={styles.centeredContainer}>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </View>
+  );
+  
+  if (!ticket) return (
+    <View style={styles.centeredContainer}>
+      <MaterialIcons name="error-outline" size={60} color={Colors.secondary} />
+      <Text style={styles.errorText}>Ticket not found</Text>
+    </View>
+  );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <MaterialIcons name="arrow-back" size={24} color="#000" />
+          <MaterialIcons name="arrow-back" size={24} color={Colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Ticket Details</Text>
       </View>
       
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Problem Details</Text>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <View style={styles.mainCard}>
+          <View style={styles.cardHeader}>
+            <Text style={styles.categoryTitle}>{ticket.category}</Text>
+            <View style={[styles.statusBadge, { backgroundColor: '#F0F8F9' }]}>
+              <Text style={[styles.statusBadgeText, { color: Colors.primary }]}>{ticket.status?.replace('_', ' ').toUpperCase()}</Text>
+            </View>
+          </View>
+
           {ticket.image_url && (
-            <View style={{ marginBottom: 15 }}>
-                <Text style={styles.labelSmall}>Submitted by: {ticket.reporter_name}</Text>
-                <Image source={{ uri: `http://192.168.1.136:5001${ticket.image_url}` }} style={styles.proofImage} />
+            <View style={styles.imageContainer}>
+                <Image source={{ uri: `http://192.168.1.136:5001${ticket.image_url}` }} style={styles.ticketImage} />
+                <View style={styles.reporterInfo}>
+                  <MaterialIcons name="person" size={14} color={Colors.white} />
+                  <Text style={styles.reporterText}>By {ticket.reporter_name}</Text>
+                </View>
             </View>
           )}
-          <Text style={styles.label}>Category: <Text style={styles.value}>{ticket.category}</Text></Text>
-          <Text style={styles.label}>Priority: <Text style={[styles.value, {color: getPriorityColor(ticket.priority)}]}>{ticket.priority === 'normal' ? 'MEDIUM' : (ticket.priority?.toUpperCase() || 'LOW')}</Text></Text>
-          <Text style={styles.label}>Location: <Text style={styles.value}>{ticket.building_name || 'N/A'} - Room {ticket.room_number || 'N/A'}</Text></Text>
-          <Text style={styles.label}>Status: <Text style={styles.value}>{ticket.status?.replace('_', ' ').toUpperCase()}</Text></Text>
-          <Text style={styles.label}>Description:</Text>
-          <Text style={styles.value}>{ticket.description}</Text>
+
+          <View style={styles.detailsGrid}>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>Priority</Text>
+              <View style={[styles.priorityDot, { backgroundColor: getPriorityColor(ticket.priority) }]} />
+              <Text style={[styles.detailValue, {color: getPriorityColor(ticket.priority), fontWeight: '700'}]}>
+                {ticket.priority === 'normal' ? 'MEDIUM' : (ticket.priority?.toUpperCase() || 'LOW')}
+              </Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>Location</Text>
+              <Text style={styles.detailValue}>{ticket.building_name || 'N/A'} - {ticket.room_number || 'N/A'}</Text>
+            </View>
+          </View>
+
+          <View style={styles.descriptionSection}>
+            <Text style={styles.detailLabel}>Description</Text>
+            <Text style={styles.descriptionText}>{ticket.description}</Text>
+          </View>
         </View>
 
-        <Text style={styles.sectionTitle}>Comments & Proof</Text>
-        <View style={styles.card}>
+        <Text style={styles.sectionHeader}>Activity & Updates</Text>
+        <View style={styles.updatesCard}>
           {ticket.comments && ticket.comments.length > 0 ? (
             ticket.comments.map((comment: any, index: number) => (
-              <View key={index} style={styles.comment}>
-                <View style={styles.commentHeader}>
+              <View key={index} style={[styles.commentItem, index === ticket.comments.length - 1 && { borderBottomWidth: 0 }]}>
+                <View style={styles.commentMeta}>
                     <Text style={styles.commentAuthor}>
-                        {comment.completion_photo_url ? 'Uploaded by Worker' : (comment.author_name || 'Worker')}
+                        {comment.completion_photo_url ? 'WORKER UPDATE' : (comment.author_name || 'Worker')}
                     </Text>
                     <Text style={styles.commentDate}>{new Date(comment.created_at).toLocaleDateString()}</Text>
                 </View>
-                {comment.body !== 'Photo proof uploaded' && <Text style={styles.commentBody}>{comment.body}</Text>}
+                {comment.body !== 'Photo proof uploaded' && <Text style={styles.commentText}>{comment.body}</Text>}
                 {comment.completion_photo_url && (
-                  <Image source={{ uri: `http://192.168.1.136:5001${comment.completion_photo_url}` }} style={styles.proofImage} />
+                  <View style={styles.proofContainer}>
+                    <Image source={{ uri: `http://192.168.1.136:5001${comment.completion_photo_url}` }} style={styles.proofImage} />
+                  </View>
                 )}
               </View>
             ))
           ) : (
-            <Text style={styles.emptyText}>No updates yet.</Text>
+            <View style={styles.emptyActivity}>
+              <MaterialIcons name="history" size={32} color={Colors.accent} />
+              <Text style={styles.emptyText}>No activity recorded yet.</Text>
+            </View>
           )}
         </View>
 
         {user?.role === 'worker' && (
-            <View style={styles.actions}>
-              <Text style={styles.sectionTitle}>Update Status</Text>
-              <View style={styles.statusButtons}>
+            <View style={styles.actionSection}>
+              <Text style={styles.sectionHeader}>Update Task</Text>
+              <View style={styles.buttonRow}>
                 {['in_progress', 'resolved'].map((s) => (
-                    <TouchableOpacity key={s} style={[styles.button, ticket.status === s && styles.buttonActive]} onPress={() => updateStatus(s)}>
-                        <Text style={[styles.buttonText, ticket.status === s && styles.buttonTextActive]}>{s.toUpperCase()}</Text>
+                    <TouchableOpacity 
+                      key={s} 
+                      style={[styles.actionButton, ticket.status === s && styles.actionButtonActive]} 
+                      onPress={() => updateStatus(s)}
+                    >
+                        <Text style={[styles.actionButtonText, ticket.status === s && styles.actionButtonTextActive]}>{s.replace('_', ' ').toUpperCase()}</Text>
                     </TouchableOpacity>
                 ))}
               </View>
-              <Text style={styles.sectionTitle}>Submit Proof</Text>
-              <View style={styles.row}>
-                <TouchableOpacity style={styles.outlinedButton} onPress={() => handleImagePick(true)}><Text style={styles.outlinedButtonText}>Take Photo</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.outlinedButton} onPress={() => handleImagePick(false)}><Text style={styles.outlinedButtonText}>From Gallery</Text></TouchableOpacity>
+              <Text style={styles.sectionHeader}>Upload Proof</Text>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.outlinedActionButton} onPress={() => handleImagePick(true)}>
+                  <MaterialIcons name="camera-alt" size={20} color={Colors.primary} />
+                  <Text style={styles.outlinedActionButtonText}>Camera</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.outlinedActionButton} onPress={() => handleImagePick(false)}>
+                  <MaterialIcons name="photo-library" size={20} color={Colors.primary} />
+                  <Text style={styles.outlinedActionButtonText}>Gallery</Text>
+                </TouchableOpacity>
               </View>
+              {uploading && <ActivityIndicator style={{marginTop: 10}} color={Colors.primary} />}
             </View>
         )}
 
         {user?.role === 'facility_manager' && (
-          <View style={styles.actions}>
-            <Text style={styles.sectionTitle}>Manage Priority</Text>
-            <View style={styles.statusButtons}>
+          <View style={styles.actionSection}>
+            <Text style={styles.sectionHeader}>Manage Priority</Text>
+            <View style={styles.buttonRow}>
               {['low', 'normal', 'high'].map((p) => (
                 <TouchableOpacity 
                   key={p} 
-                  style={[styles.button, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.buttonActive]} 
+                  style={[styles.smallActionButton, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.actionButtonActive]} 
                   onPress={() => updatePriority(p)}
                 >
-                  <Text style={[styles.buttonText, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.buttonTextActive]}>{p === 'normal' ? 'MEDIUM' : p.toUpperCase()}</Text>
+                  <Text style={[styles.smallActionButtonText, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.actionButtonTextActive]}>{p === 'normal' ? 'MID' : p.toUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
             </View>            
-            <Text style={styles.sectionTitle}>Manage Ticket Status</Text>
-            <View style={styles.statusButtons}>
+            
+            <Text style={styles.sectionHeader}>Update Ticket Status</Text>
+            <View style={styles.buttonRowWrap}>
               {['pending', 'assigned', 'in_progress', 'resolved', 'denied'].map((s) => (
                 <TouchableOpacity 
                   key={s} 
-                  style={[styles.button, ticket.status === s && styles.buttonActive]} 
+                  style={[styles.smallActionButton, ticket.status === s && styles.actionButtonActive]} 
                   onPress={() => updateStatus(s)}
                 >
-                  <Text style={[styles.buttonText, ticket.status === s && styles.buttonTextActive]}>{s.replace('_', ' ').toUpperCase()}</Text>
+                  <Text style={[styles.smallActionButtonText, ticket.status === s && styles.actionButtonTextActive]}>{s.replace('_', ' ').toUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
             </View>
             
-            <Text style={styles.sectionTitle}>Assign Worker</Text>
-            <View style={styles.workerList}>
+            <Text style={styles.sectionHeader}>Assign to Worker</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.workerScroll}>
               {workers.map((w) => (
                 <TouchableOpacity 
                   key={w.user_id} 
-                  style={[styles.workerItem, ticket.assigned_worker_id === w.user_id && styles.workerItemActive]} 
+                  style={[styles.workerChip, ticket.assigned_worker_id === w.user_id && styles.workerChipActive]} 
                   onPress={() => assignWorker(w.user_id)}
                 >
-                  <Text style={ticket.assigned_worker_id === w.user_id ? styles.workerTextActive : styles.workerText}>{w.name}</Text>
+                  <MaterialIcons name="person" size={16} color={ticket.assigned_worker_id === w.user_id ? Colors.white : Colors.primary} style={{marginRight: 6}} />
+                  <Text style={ticket.assigned_worker_id === w.user_id ? styles.workerChipTextActive : styles.workerChipText}>{w.name}</Text>
                 </TouchableOpacity>
               ))}
-            </View>
+            </ScrollView>
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#F2F2F7' },
-  header: { flexDirection: 'row', alignItems: 'center', padding: 16, backgroundColor: '#FFF', borderBottomWidth: 1, borderBottomColor: '#E5E5EA' },
-  backButton: { marginRight: 16 },
-  headerTitle: { fontSize: 18, fontWeight: '700' },
-  scrollContent: { padding: 16 },
-  card: { backgroundColor: '#FFF', padding: 20, borderRadius: 12, marginBottom: 16 },
-  label: { fontSize: 15, fontWeight: '600', color: '#3A3A3C', marginBottom: 4 },
-  labelSmall: { fontSize: 12, fontWeight: '600', color: '#8E8E93', marginBottom: 4 },
-  value: { fontSize: 15, fontWeight: '400', color: '#1C1C1E' },
-  sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12, marginTop: 8 },
-  actions: { backgroundColor: '#FFF', padding: 20, borderRadius: 12, marginBottom: 40 },
-  statusButtons: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  button: { backgroundColor: '#E5E5EA', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 6, marginBottom: 8 },
-  buttonActive: { backgroundColor: '#007AFF' },
-  buttonText: { color: '#1C1C1E', fontSize: 12, fontWeight: '600' },
-  buttonTextActive: { color: '#FFF' },
-  outlinedButton: { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: '#007AFF', paddingVertical: 12, borderRadius: 8, flex: 1, alignItems: 'center' },
-  outlinedButtonText: { color: '#007AFF', fontWeight: '600', fontSize: 14 },
-  workerList: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  workerItem: { padding: 10, backgroundColor: '#E5E5EA', borderRadius: 6, marginBottom: 8 },
-  workerItemActive: { backgroundColor: '#007AFF' },
-  workerText: { color: '#1C1C1E' },
-  workerTextActive: { color: '#FFF' },
-  comment: { marginBottom: 15, borderBottomWidth: 1, borderBottomColor: '#E5E5EA', paddingBottom: 10 },
-  commentHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
-  commentAuthor: { fontWeight: '600', fontSize: 13, color: '#3A3A3C' },
-  commentDate: { fontSize: 12, color: '#8E8E93' },
-  commentBody: { fontSize: 14, color: '#1C1C1E' },
-  proofImage: { width: '100%', height: 200, borderRadius: 8, marginTop: 8 },
-  emptyText: { color: '#8E8E93', fontSize: 14 }
+  container: { flex: 1, backgroundColor: Colors.background },
+  header: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    padding: 20, 
+    paddingTop: 50,
+    backgroundColor: Colors.primary, 
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  backButton: { marginRight: 15 },
+  headerTitle: { fontSize: 22, fontWeight: '800', color: Colors.white },
+  scrollContent: { padding: 20, paddingBottom: 40 },
+  mainCard: { 
+    backgroundColor: Colors.surface, 
+    padding: 20, 
+    borderRadius: 25, 
+    marginBottom: 25,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    elevation: 4,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 15,
+  },
+  categoryTitle: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: Colors.primary,
+    flex: 1,
+  },
+  statusBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    marginLeft: 10,
+  },
+  statusBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+  },
+  imageContainer: {
+    width: '100%',
+    height: 220,
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 20,
+    position: 'relative',
+  },
+  ticketImage: {
+    width: '100%',
+    height: '100%',
+  },
+  reporterInfo: {
+    position: 'absolute',
+    bottom: 12,
+    right: 12,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  reporterText: {
+    color: Colors.white,
+    fontSize: 11,
+    fontWeight: '600',
+    marginLeft: 4,
+  },
+  detailsGrid: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  detailItem: {
+    flex: 1,
+  },
+  detailLabel: {
+    fontSize: 12,
+    color: Colors.accent,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    marginBottom: 5,
+  },
+  detailValue: {
+    fontSize: 16,
+    color: Colors.primary,
+    fontWeight: '600',
+  },
+  priorityDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    position: 'absolute',
+    left: -12,
+    top: 22,
+  },
+  descriptionSection: {
+    marginTop: 5,
+  },
+  descriptionText: {
+    fontSize: 15,
+    color: Colors.secondary,
+    lineHeight: 22,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: Colors.primary,
+    marginBottom: 15,
+    marginTop: 5,
+  },
+  updatesCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 25,
+    padding: 5,
+    marginBottom: 25,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  commentItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  commentMeta: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  commentAuthor: {
+    fontWeight: '800',
+    fontSize: 12,
+    color: Colors.primary,
+    textTransform: 'uppercase',
+  },
+  commentDate: {
+    fontSize: 11,
+    color: Colors.accent,
+    fontWeight: '500',
+  },
+  commentText: {
+    fontSize: 14,
+    color: Colors.secondary,
+    lineHeight: 20,
+  },
+  proofContainer: {
+    marginTop: 10,
+    borderRadius: 15,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+  },
+  proofImage: {
+    width: '100%',
+    height: 180,
+  },
+  emptyActivity: {
+    padding: 30,
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: Colors.accent,
+    fontSize: 14,
+    marginTop: 10,
+    fontWeight: '600',
+  },
+  actionSection: {
+    backgroundColor: Colors.surface,
+    padding: 20,
+    borderRadius: 25,
+    marginBottom: 30,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    elevation: 4,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 20,
+  },
+  buttonRowWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 20,
+  },
+  actionButton: {
+    flex: 1,
+    backgroundColor: '#F0F8F9',
+    paddingVertical: 15,
+    borderRadius: 15,
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: Colors.accent,
+  },
+  actionButtonActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  actionButtonText: {
+    color: Colors.primary,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  actionButtonTextActive: {
+    color: Colors.white,
+  },
+  outlinedActionButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+    borderStyle: 'dashed',
+    paddingVertical: 12,
+    borderRadius: 15,
+    backgroundColor: 'rgba(11, 46, 51, 0.05)',
+  },
+  outlinedActionButtonText: {
+    color: Colors.primary,
+    fontWeight: '700',
+    fontSize: 14,
+    marginLeft: 8,
+  },
+  smallActionButton: {
+    backgroundColor: '#F0F8F9',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.accent,
+  },
+  smallActionButtonText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  workerScroll: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  workerChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: Colors.accent,
+    marginRight: 10,
+  },
+  workerChipActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  workerChipText: {
+    color: Colors.primary,
+    fontWeight: '600',
+    fontSize: 13,
+  },
+  workerChipTextActive: {
+    color: Colors.white,
+    fontWeight: '700',
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+  },
+  errorText: {
+    fontSize: 18,
+    color: Colors.primary,
+    fontWeight: '700',
+    marginTop: 15,
+  }
 });

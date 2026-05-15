@@ -1,12 +1,31 @@
 import { Tabs } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from "../../src/context/AuthContext";
+import { Colors } from "../../src/constants/Colors";
 
 export default function TabLayout() {
   const { user } = useAuth();
 
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: '#007AFF' }}>
+    <Tabs screenOptions={{ 
+      tabBarActiveTintColor: Colors.primary,
+      tabBarInactiveTintColor: Colors.secondary,
+      tabBarStyle: {
+        backgroundColor: Colors.white,
+        borderTopWidth: 1,
+        borderTopColor: Colors.accent,
+        height: 60,
+        paddingBottom: 8,
+        paddingTop: 8,
+      },
+      headerStyle: {
+        backgroundColor: Colors.primary,
+      },
+      headerTintColor: Colors.white,
+      headerTitleStyle: {
+        fontWeight: '700',
+      }
+    }}>
       <Tabs.Screen
         name="dashboard"
         options={{

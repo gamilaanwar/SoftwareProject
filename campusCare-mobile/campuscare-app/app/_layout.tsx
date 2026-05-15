@@ -2,6 +2,7 @@ import { Slot, useRouter, useSegments } from "expo-router";
 import { AuthProvider, useAuth } from '../src/context/AuthContext';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { Colors } from '../src/constants/Colors';
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, user, loading } = useAuth();
@@ -29,8 +30,8 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background }}>
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
   }

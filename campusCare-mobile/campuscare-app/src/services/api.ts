@@ -1,7 +1,18 @@
 import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 const getBaseUrl = () => {
-  // Use the persistent Ngrok URL
+  // If we are in development, dynamically get the host IP from Expo Constants
+  if (__DEV__) {
+    const debuggerHost = Constants.expoConfig?.hostUri || Constants.experienceUrl || '';
+    const localhost = debuggerHost.split(':')[0];
+    
+    if (localhost) {
+      return `http://${localhost}:5001/api`;
+    }
+  }
+
+  // Fallback for production or if debuggerHost is unavailable
   return 'https://undoing-purging-manila.ngrok-free.dev/api';
 };
 
@@ -40,6 +51,7 @@ const request = async (endpoint: string, options: RequestInit = {}, params?: Rec
   try {
     data = JSON.parse(responseText);
   } catch (e) {
+    console.error(`API Error at ${url}:`, responseText);
     throw new Error('Server returned invalid data');
   }
 

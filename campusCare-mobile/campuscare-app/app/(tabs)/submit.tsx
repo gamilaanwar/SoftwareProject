@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { api } from '../../src/services/api';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Colors } from '../../src/constants/Colors';
 
 export default function SubmitIssueScreen() {
   const [category, setCategory] = useState('');
@@ -42,9 +43,6 @@ export default function SubmitIssueScreen() {
   };
 
   const handleSubmit = async () => {
-    console.log('--- SUBMIT DEBUG ---');
-    console.log('States:', { category, description, building, floor, room, locationNotes });
-
     if (!category || !description || !building || !floor || !room) {
       Alert.alert('Error', 'Please fill in all required fields');
       return;
@@ -65,7 +63,6 @@ export default function SubmitIssueScreen() {
         formData.append('image', { uri: image, name: filename, type: 'image/jpeg' } as any);
       }
 
-      console.log('FormData ready. Submitting...');
       const response = await api.issues.submit(formData);
 
       if (response.success) {
@@ -85,7 +82,6 @@ export default function SubmitIssueScreen() {
         Alert.alert('Error', response.message || 'Failed to submit issue');
       }
     } catch (error: any) {
-      console.error('Submit issue error:', error);
       Alert.alert('Error', error.message || 'An error occurred');
     } finally {
       setLoading(false);
@@ -93,35 +89,104 @@ export default function SubmitIssueScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Report an Issue</Text>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Report an Issue</Text>
+        <Text style={styles.subtitle}>Help us keep our campus in top shape</Text>
+      </View>
+
       <View style={styles.form}>
-        <Text style={styles.label}>Category</Text>
-        <TextInput style={styles.input} placeholder="e.g. Plumbing, Electrical" value={category} onChangeText={setCategory} />
-        <Text style={styles.label}>Description</Text>
-        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe the issue" value={description} onChangeText={setDescription} multiline numberOfLines={4} />
-        <Text style={styles.label}>Building Name</Text>
-        <TextInput style={styles.input} placeholder="Building A" value={building} onChangeText={setBuilding} />
-        <View style={styles.row}>
-          <View style={styles.halfWidth}><TextInput style={styles.input} placeholder="Floor" value={floor} onChangeText={setFloor} keyboardType="numeric" /></View>
-          <View style={styles.halfWidth}><TextInput style={styles.input} placeholder="Room #" value={room} onChangeText={setRoom} /></View>
+        <View style={styles.section}>
+          <Text style={styles.label}>Issue Details</Text>
+          <TextInput 
+            style={styles.input} 
+            placeholder="Category (e.g. Plumbing, Electrical)" 
+            placeholderTextColor={Colors.accent}
+            value={category} 
+            onChangeText={setCategory} 
+          />
+          <TextInput 
+            style={[styles.input, styles.textArea]} 
+            placeholder="Describe the issue in detail" 
+            placeholderTextColor={Colors.accent}
+            value={description} 
+            onChangeText={setDescription} 
+            multiline 
+            numberOfLines={4} 
+          />
         </View>
-        <Text style={styles.label}>Additional Notes</Text>
-        <TextInput style={[styles.input, styles.textArea]} placeholder="Optional" value={locationNotes} onChangeText={setLocationNotes} multiline />
-        
-        <Text style={styles.label}>Attach Photo</Text>
-        <View style={styles.imageActions}>
-          <TouchableOpacity style={styles.imageButton} onPress={pickImage}><Text style={styles.imageButtonText}>Gallery</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.imageButton} onPress={takePhoto}><Text style={styles.imageButtonText}>Camera</Text></TouchableOpacity>
-        </View>
-        {image && (
-          <View style={styles.imagePreviewContainer}>
-            <Image source={{ uri: image }} style={styles.imagePreview} />
-            <TouchableOpacity style={styles.removeImage} onPress={() => setImage(null)}><MaterialIcons name="cancel" size={24} color="#FF3B30" /></TouchableOpacity>
+
+        <View style={styles.section}>
+          <Text style={styles.label}>Location</Text>
+          <TextInput 
+            style={styles.input} 
+            placeholder="Building Name" 
+            placeholderTextColor={Colors.accent}
+            value={building} 
+            onChangeText={setBuilding} 
+          />
+          <View style={styles.row}>
+            <View style={styles.halfWidth}>
+              <TextInput 
+                style={styles.input} 
+                placeholder="Floor" 
+                placeholderTextColor={Colors.accent}
+                value={floor} 
+                onChangeText={setFloor} 
+                keyboardType="numeric" 
+              />
+            </View>
+            <View style={styles.halfWidth}>
+              <TextInput 
+                style={styles.input} 
+                placeholder="Room #" 
+                placeholderTextColor={Colors.accent}
+                value={room} 
+                onChangeText={setRoom} 
+              />
+            </View>
           </View>
-        )}
+          <TextInput 
+            style={[styles.input, styles.textAreaSmall]} 
+            placeholder="Additional location notes (Optional)" 
+            placeholderTextColor={Colors.accent}
+            value={locationNotes} 
+            onChangeText={setLocationNotes} 
+            multiline 
+          />
+        </View>
+        
+        <View style={styles.section}>
+          <Text style={styles.label}>Attach Photo</Text>
+          <View style={styles.imageActions}>
+            <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
+              <MaterialIcons name="photo-library" size={20} color={Colors.primary} />
+              <Text style={styles.imageButtonText}>Gallery</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.imageButton} onPress={takePhoto}>
+              <MaterialIcons name="camera-alt" size={20} color={Colors.primary} />
+              <Text style={styles.imageButtonText}>Camera</Text>
+            </TouchableOpacity>
+          </View>
+          {image && (
+            <View style={styles.imagePreviewContainer}>
+              <Image source={{ uri: image }} style={styles.imagePreview} />
+              <TouchableOpacity style={styles.removeImage} onPress={() => setImage(null)}>
+                <MaterialIcons name="cancel" size={28} color="#FF3B30" />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+
         <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Submit Report</Text>}
+          {loading ? (
+            <ActivityIndicator color={Colors.white} />
+          ) : (
+            <>
+              <MaterialIcons name="send" size={20} color={Colors.white} style={{ marginRight: 10 }} />
+              <Text style={styles.buttonText}>Submit Report</Text>
+            </>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -129,20 +194,138 @@ export default function SubmitIssueScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, backgroundColor: '#f5f5f5', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#333', marginBottom: 20, marginTop: 10 },
-  form: { backgroundColor: '#fff', padding: 20, borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 },
-  label: { fontSize: 16, fontWeight: '600', color: '#333', marginBottom: 10 },
-  input: { height: 50, borderColor: '#ddd', borderWidth: 1, borderRadius: 5, marginBottom: 15, paddingHorizontal: 15, fontSize: 16 },
-  textArea: { height: 100, paddingTop: 10, textAlignVertical: 'top' },
-  row: { flexDirection: 'row', justifyContent: 'space-between' },
-  halfWidth: { width: '48%' },
-  imageActions: { flexDirection: 'row', marginBottom: 15, gap: 15 },
-  imageButton: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 45, borderRadius: 5, borderWidth: 1, borderColor: '#007AFF', borderStyle: 'dashed' },
-  imageButtonText: { color: '#007AFF', marginLeft: 8, fontWeight: '600' },
-  imagePreviewContainer: { position: 'relative', marginBottom: 15, alignItems: 'center' },
-  imagePreview: { width: '100%', height: 200, borderRadius: 10 },
-  removeImage: { position: 'absolute', top: -10, right: -10, backgroundColor: '#fff', borderRadius: 12 },
-  button: { backgroundColor: '#007AFF', height: 50, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginTop: 10 },
-  buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' }
+  container: { 
+    flexGrow: 1, 
+    backgroundColor: Colors.background, 
+    padding: 20 
+  },
+  header: {
+    marginBottom: 25,
+  },
+  title: { 
+    fontSize: 28, 
+    fontWeight: '800', 
+    color: Colors.primary,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: Colors.secondary,
+    fontWeight: '500',
+    marginTop: 4,
+  },
+  form: { 
+    backgroundColor: Colors.surface, 
+    padding: 20, 
+    borderRadius: 20, 
+    shadowColor: Colors.primary, 
+    shadowOffset: { width: 0, height: 10 }, 
+    shadowOpacity: 0.1, 
+    shadowRadius: 20, 
+    elevation: 5,
+    marginBottom: 40,
+  },
+  section: {
+    marginBottom: 20,
+  },
+  label: { 
+    fontSize: 14, 
+    fontWeight: '700', 
+    color: Colors.primary, 
+    marginBottom: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  input: { 
+    height: 50, 
+    borderColor: Colors.accent, 
+    borderWidth: 1.5, 
+    borderRadius: 12, 
+    marginBottom: 12, 
+    paddingHorizontal: 15, 
+    fontSize: 16,
+    color: Colors.primary,
+    backgroundColor: '#fff',
+  },
+  textArea: { 
+    height: 100, 
+    paddingTop: 12, 
+    textAlignVertical: 'top' 
+  },
+  textAreaSmall: {
+    height: 60,
+    paddingTop: 12,
+    textAlignVertical: 'top'
+  },
+  row: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between' 
+  },
+  halfWidth: { 
+    width: '48%' 
+  },
+  imageActions: { 
+    flexDirection: 'row', 
+    marginBottom: 15, 
+    gap: 15 
+  },
+  imageButton: { 
+    flex: 1, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    height: 50, 
+    borderRadius: 12, 
+    borderWidth: 1.5, 
+    borderColor: Colors.primary, 
+    borderStyle: 'dashed',
+    backgroundColor: 'rgba(11, 46, 51, 0.05)',
+  },
+  imageButtonText: { 
+    color: Colors.primary, 
+    marginLeft: 8, 
+    fontWeight: '700' 
+  },
+  imagePreviewContainer: { 
+    position: 'relative', 
+    marginTop: 10, 
+    alignItems: 'center',
+    borderRadius: 15,
+    overflow: 'hidden',
+    borderWidth: 1.5,
+    borderColor: Colors.accent,
+  },
+  imagePreview: { 
+    width: '100%', 
+    height: 200, 
+  },
+  removeImage: { 
+    position: 'absolute', 
+    top: 10, 
+    right: 10, 
+    backgroundColor: '#fff', 
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  button: { 
+    backgroundColor: Colors.primary, 
+    height: 55, 
+    borderRadius: 12, 
+    flexDirection: 'row',
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginTop: 10,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  buttonText: { 
+    color: Colors.white, 
+    fontSize: 18, 
+    fontWeight: '700' 
+  }
 });

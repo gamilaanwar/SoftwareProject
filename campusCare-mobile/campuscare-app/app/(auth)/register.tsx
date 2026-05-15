@@ -3,6 +3,7 @@ import { StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator, Scro
 import { Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { api } from '../../src/services/api';
+import { Colors } from '../../src/constants/Colors';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -59,6 +60,7 @@ export default function RegisterScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your full name"
+          placeholderTextColor={Colors.accent}
           value={name}
           onChangeText={setName}
         />
@@ -67,6 +69,7 @@ export default function RegisterScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your email"
+          placeholderTextColor={Colors.accent}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -77,6 +80,7 @@ export default function RegisterScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your password"
+          placeholderTextColor={Colors.accent}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -86,6 +90,7 @@ export default function RegisterScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your phone number"
+          placeholderTextColor={Colors.accent}
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
@@ -123,7 +128,7 @@ export default function RegisterScreen() {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color={Colors.white} />
           ) : (
             <Text style={styles.buttonText}>Register</Text>
           )}
@@ -140,7 +145,7 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
     padding: 20,
     justifyContent: 'center',
   },
@@ -150,40 +155,44 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#007AFF',
+    fontSize: 32,
+    fontWeight: '800',
+    color: Colors.primary,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: Colors.secondary,
     marginTop: 5,
+    fontWeight: '500',
   },
   form: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     padding: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    borderRadius: 20,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 20,
+    elevation: 5,
     marginBottom: 20,
   },
   label: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 5,
+    fontWeight: '700',
+    color: Colors.primary,
+    marginBottom: 8,
+    textTransform: 'uppercase',
   },
   input: {
     height: 50,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 5,
+    borderColor: Colors.accent,
+    borderWidth: 1.5,
+    borderRadius: 12,
     marginBottom: 15,
     paddingHorizontal: 15,
     fontSize: 16,
+    color: Colors.primary,
+    backgroundColor: '#fff',
   },
   roleContainer: {
     flexDirection: 'row',
@@ -193,43 +202,49 @@ const styles = StyleSheet.create({
   },
   roleButton: {
     width: '48%',
-    paddingVertical: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: Colors.accent,
     alignItems: 'center',
     marginBottom: 10,
     backgroundColor: '#fff',
   },
   roleButtonActive: {
-    borderColor: '#007AFF',
-    backgroundColor: '#E6F0FF',
+    borderColor: Colors.primary,
+    backgroundColor: Colors.background,
   },
   roleButtonText: {
-    color: '#666',
-    fontWeight: '500',
+    color: Colors.secondary,
+    fontWeight: '600',
   },
   roleButtonTextActive: {
-    color: '#007AFF',
-    fontWeight: 'bold',
+    color: Colors.primary,
+    fontWeight: '700',
   },
   button: {
-    backgroundColor: '#007AFF',
-    height: 50,
-    borderRadius: 5,
+    backgroundColor: Colors.primary,
+    height: 55,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 15,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
   linkText: {
-    color: '#007AFF',
+    color: Colors.secondary,
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: '600',
   },
 });
