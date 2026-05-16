@@ -94,6 +94,15 @@ export default function WorkerTaskScreen() {
     }
   };
 
+  const getPriorityColor = (p: string) => {
+    switch(p) {
+      case 'high': return '#FF3B30';
+      case 'normal': return '#FF9500';
+      case 'low': return '#FFCC00';
+      default: return '#8E8E93';
+    }
+  };
+
   if (loading) return (
     <View style={styles.centeredContainer}>
       <ActivityIndicator size="large" color={Colors.primary} />
@@ -121,8 +130,13 @@ export default function WorkerTaskScreen() {
         <View style={styles.mainCard}>
           <View style={styles.cardHeader}>
             <Text style={styles.categoryTitle}>{ticket.category}</Text>
-            <View style={[styles.statusBadge, { backgroundColor: '#F0F8F9' }]}>
-              <Text style={[styles.statusBadgeText, { color: Colors.primary }]}>{ticket.status?.replace('_', ' ').toUpperCase()}</Text>
+            <View style={styles.headerBadges}>
+              <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor(ticket.priority) }]}>
+                <Text style={styles.badgeText}>{ticket.priority === 'normal' ? 'MEDIUM' : ticket.priority?.toUpperCase()}</Text>
+              </View>
+              <View style={[styles.statusBadge, { backgroundColor: '#F0F8F9' }]}>
+                <Text style={[styles.statusBadgeText, { color: Colors.primary }]}>{ticket.status?.replace('_', ' ').toUpperCase()}</Text>
+              </View>
             </View>
           </View>
 
@@ -249,6 +263,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 15,
   },
+  headerBadges: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: 6,
+  },
   categoryTitle: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -260,7 +279,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    marginLeft: 10,
+  },
+  priorityBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  badgeText: {
+    fontSize: 10,
+    color: '#FFF',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   statusBadgeText: {
     fontSize: 10,

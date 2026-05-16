@@ -67,7 +67,7 @@ export default function DashboardScreen() {
         </Text>
         <View style={styles.priorityRow}>
           <View style={[styles.priorityDot, { backgroundColor: getPriorityColor(item.priority) }]} />
-          <Text style={styles.priorityText}>{item.priority?.toUpperCase() || 'NORMAL'}</Text>
+          <Text style={styles.priorityText}>{item.priority === 'normal' ? 'MEDIUM' : (item.priority?.toUpperCase() || 'MEDIUM')}</Text>
         </View>
       </View>
     </TouchableOpacity>

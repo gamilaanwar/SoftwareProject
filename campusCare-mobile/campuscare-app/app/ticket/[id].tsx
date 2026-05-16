@@ -255,7 +255,7 @@ export default function TicketDetailScreen() {
                   style={[styles.smallActionButton, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.actionButtonActive]} 
                   onPress={() => updatePriority(p)}
                 >
-                  <Text style={[styles.smallActionButtonText, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.actionButtonTextActive]}>{p === 'normal' ? 'MID' : p.toUpperCase()}</Text>
+                  <Text style={[styles.smallActionButtonText, (ticket.priority === p || (ticket.priority === 'normal' && p === 'medium')) && styles.actionButtonTextActive]}>{p === 'normal' ? 'MEDIUM' : p.toUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
             </View>            
