@@ -147,6 +147,20 @@ export default function WorkerTaskScreen() {
             </Text>
           </View>
 
+          {ticket.image_url && (
+            <View style={[styles.issueImageContainer, { height: width * 0.55 }]}>
+              <Image 
+                source={{ uri: `${IMAGE_BASE_URL}${ticket.image_url}` }} 
+                style={styles.issueImage} 
+                resizeMode="cover"
+              />
+              <View style={styles.reporterBadge}>
+                <MaterialIcons name="person" size={14} color={Colors.white} />
+                <Text style={styles.reporterBadgeText}>By {ticket.reporter_name || 'Community Member'}</Text>
+              </View>
+            </View>
+          )}
+
           <View style={styles.descriptionSection}>
             <Text style={styles.detailLabel}>Task Description</Text>
             <Text style={styles.descriptionText}>{ticket.description}</Text>
@@ -329,6 +343,39 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: 'Cooper',
     fontWeight: 'normal'
+  },
+  issueImageSection: {
+    marginTop: 20,
+  },
+  issueImageContainer: {
+    width: '100%',
+    borderRadius: 15,
+    overflow: 'hidden',
+    backgroundColor: '#F0F0F0',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  issueImage: {
+    width: '100%',
+    height: '100%',
+  },
+  reporterBadge: {
+    position: 'absolute',
+    bottom: 12,
+    right: 12,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  reporterBadgeText: {
+    color: Colors.white,
+    fontSize: 11,
+    fontWeight: 'normal',
+    marginLeft: 4,
+    fontFamily: 'Cooper'
   },
   actionCard: { 
     backgroundColor: Colors.surface, 

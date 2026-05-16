@@ -18,6 +18,8 @@ export default function TicketDetailScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
 
+  const completionPhoto = ticket?.comments?.find((c: any) => c.completion_photo_url)?.completion_photo_url;
+
   useEffect(() => {
     fetchTicketDetails();
     if (user?.role === 'facility_manager') {
@@ -183,6 +185,23 @@ export default function TicketDetailScreen() {
             <Text style={styles.detailLabel}>Description</Text>
             <Text style={styles.descriptionText}>{ticket.description}</Text>
           </View>
+
+          {ticket.status === 'resolved' && completionPhoto && (
+            <View style={styles.completionSection}>
+              <Text style={styles.detailLabel}>Worker's Completion Proof</Text>
+              <View style={[styles.imageContainer, { height: width * 0.55, marginTop: 10 }]}>
+                <Image 
+                  source={{ uri: `${IMAGE_BASE_URL}${completionPhoto}` }} 
+                  style={styles.ticketImage} 
+                  resizeMode="cover"
+                />
+                <View style={styles.resolvedBadge}>
+                  <MaterialIcons name="check-circle" size={14} color={Colors.white} />
+                  <Text style={styles.reporterText}>Resolved</Text>
+                </View>
+              </View>
+            </View>
+          )}
         </View>
 
         <Text style={styles.sectionHeader}>Activity & Updates</Text>
@@ -421,6 +440,23 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: 'Cooper',
     fontWeight: 'normal'
+  },
+  completionSection: {
+    marginTop: 20,
+    paddingTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+  },
+  resolvedBadge: {
+    position: 'absolute',
+    bottom: 12,
+    right: 12,
+    backgroundColor: '#4CD964',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   sectionHeader: {
     fontSize: 17,
