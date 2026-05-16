@@ -154,14 +154,16 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   title: { 
+    fontFamily: 'Cooper',
     fontSize: 24, 
-    fontWeight: '800', 
+    fontWeight: 'bold', 
     color: Colors.white,
   },
   subtitle: {
+    fontFamily: 'Cooper',
     fontSize: 13,
     color: Colors.accent,
-    fontWeight: '500',
+    fontWeight: 'normal',
     marginTop: 2,
   },
   filterSection: {
@@ -184,9 +186,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
   },
   filterText: { 
+    fontFamily: 'Cooper',
     color: Colors.secondary,
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: 'normal',
   },
   filterTextActive: { 
     color: Colors.white 
@@ -213,8 +216,9 @@ const styles = StyleSheet.create({
     marginBottom: 10 
   },
   category: { 
+    fontFamily: 'Cooper',
     fontSize: 18, 
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: Colors.primary,
     flex: 1,
   },
@@ -225,10 +229,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   status: { 
+    fontFamily: 'Cooper',
     fontSize: 10, 
-    fontWeight: '800',
+    fontWeight: 'normal',
   },
   description: { 
+    fontFamily: 'Cooper',
     color: Colors.secondary, 
     marginBottom: 12,
     lineHeight: 18,
@@ -242,9 +248,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   location: { 
+    fontFamily: 'Cooper',
     fontSize: 12, 
     color: Colors.primary,
-    fontWeight: '600',
+    fontWeight: 'normal',
     flex: 1,
   },
   emptyContainer: {
@@ -252,16 +259,18 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   empty: { 
+    fontFamily: 'Cooper',
     textAlign: 'center', 
     marginTop: 15, 
     color: Colors.secondary,
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: 'normal',
   },
   errorText: { 
+    fontFamily: 'Cooper',
     fontSize: 18, 
     marginTop: 10,
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'bold',
   }
 });

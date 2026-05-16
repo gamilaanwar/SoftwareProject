@@ -209,14 +209,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: { 
+    fontFamily: 'Cooper',
     fontSize: 26, 
-    fontWeight: '800', 
+    fontWeight: 'bold', 
     color: Colors.primary,
   },
   subtitle: {
+    fontFamily: 'Cooper',
     fontSize: 14,
     color: Colors.secondary,
-    fontWeight: '500',
+    fontWeight: 'normal',
     marginTop: 2,
   },
   form: { 
@@ -234,14 +236,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   label: { 
+    fontFamily: 'Cooper',
     fontSize: 12, 
-    fontWeight: '700', 
+    fontWeight: 'normal', 
     color: Colors.primary, 
     marginBottom: 10,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   input: { 
+    fontFamily: 'Cooper',
     height: 48, 
     borderColor: Colors.accent, 
     borderWidth: 1.5, 
@@ -287,9 +291,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(11, 46, 51, 0.05)',
   },
   imageButtonText: { 
+    fontFamily: 'Cooper',
     color: Colors.primary, 
     marginLeft: 8, 
-    fontWeight: '700',
+    fontWeight: 'normal',
     fontSize: 13,
   },
   imagePreviewContainer: { 
@@ -329,8 +334,9 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   buttonText: { 
+    fontFamily: 'Cooper',
     color: Colors.white, 
     fontSize: 16, 
-    fontWeight: '700' 
+    fontWeight: 'normal' 
   }
 });

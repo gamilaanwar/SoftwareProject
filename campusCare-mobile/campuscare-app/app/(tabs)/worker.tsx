@@ -151,14 +151,16 @@ const styles = StyleSheet.create({
   },
   title: { 
     fontSize: 26, 
-    fontWeight: '800', 
+    fontWeight: 'bold', 
     color: Colors.white,
+    fontFamily: 'Cooper',
   },
   subtitle: {
     fontSize: 14,
     color: Colors.accent,
-    fontWeight: '500',
+    fontWeight: 'normal',
     marginTop: 4,
+    fontFamily: 'Cooper',
   },
   listContent: { 
     padding: 20, 
@@ -192,14 +194,17 @@ const styles = StyleSheet.create({
   },
   category: { 
     fontSize: 18, 
-    fontWeight: '700', 
-    color: Colors.primary 
+    fontWeight: 'bold', 
+    color: Colors.primary,
+    fontFamily: 'Cooper',
   },
   description: { 
     fontSize: 14, 
     color: Colors.secondary, 
     lineHeight: 20,
-    marginBottom: 4 
+    marginBottom: 4,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal',
   },
   locationContainer: {
     flexDirection: 'row',
@@ -208,12 +213,14 @@ const styles = StyleSheet.create({
   location: { 
     fontSize: 12, 
     color: Colors.secondary,
-    fontWeight: '600',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper',
   },
   status: { 
     fontSize: 11, 
-    fontWeight: '800', 
-    color: Colors.primary 
+    fontWeight: 'normal', 
+    color: Colors.primary,
+    fontFamily: 'Cooper',
   },
   priorityBadge: { 
     paddingHorizontal: 10, 
@@ -221,7 +228,8 @@ const styles = StyleSheet.create({
     borderRadius: 8, 
     color: '#FFF', 
     fontSize: 10, 
-    fontWeight: '800' 
+    fontWeight: 'normal',
+    fontFamily: 'Cooper',
   },
   emptyContainer: {
     alignItems: 'center',
@@ -232,7 +240,8 @@ const styles = StyleSheet.create({
     color: Colors.secondary, 
     marginTop: 15, 
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper',
   },
   centered: { 
     flex: 1, 
@@ -255,10 +264,11 @@ const styles = StyleSheet.create({
   },
   inactiveTitle: {
     fontSize: 24,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.primary,
     marginTop: 20,
     marginBottom: 10,
+    fontFamily: 'Cooper',
   },
   inactiveDescription: {
     fontSize: 16,
@@ -266,6 +276,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 24,
     marginBottom: 30,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal',
   },
   refreshButton: {
     backgroundColor: Colors.primary,
@@ -275,13 +287,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: Colors.white,
-    fontWeight: '700',
+    fontWeight: 'normal',
     fontSize: 16,
+    fontFamily: 'Cooper',
   },
   errorText: {
     fontSize: 18,
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
     marginTop: 10,
+    fontFamily: 'Cooper',
   }
 });

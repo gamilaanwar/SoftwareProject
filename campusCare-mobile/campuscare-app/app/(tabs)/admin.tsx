@@ -131,14 +131,16 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   headerTitle: { 
+    fontFamily: 'Cooper',
     fontSize: 24, 
-    fontWeight: '800', 
+    fontWeight: 'bold', 
     color: Colors.white,
   },
   headerSubtitle: {
+    fontFamily: 'Cooper',
     fontSize: 13,
     color: Colors.accent,
-    fontWeight: '500',
+    fontWeight: 'normal',
     marginTop: 2,
   },
   listContent: { 
@@ -164,12 +166,14 @@ const styles = StyleSheet.create({
     marginRight: 10 
   },
   userName: { 
+    fontFamily: 'Cooper',
     fontSize: 17, 
-    fontWeight: '700', 
+    fontWeight: 'normal', 
     color: Colors.primary, 
     marginBottom: 2 
   },
   userEmail: { 
+    fontFamily: 'Cooper',
     fontSize: 13, 
     color: Colors.secondary, 
     marginBottom: 8 
@@ -182,8 +186,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start' 
   },
   roleText: { 
+    fontFamily: 'Cooper',
     fontSize: 9, 
-    fontWeight: '800', 
+    fontWeight: 'normal', 
     color: Colors.primary, 
     letterSpacing: 0.5 
   },
@@ -192,8 +197,9 @@ const styles = StyleSheet.create({
     width: 70 
   },
   statusText: { 
+    fontFamily: 'Cooper',
     fontSize: 10, 
-    fontWeight: '800', 
+    fontWeight: 'normal', 
     marginBottom: 4,
     textTransform: 'uppercase',
   },
@@ -204,9 +210,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   errorText: { 
+    fontFamily: 'Cooper',
     fontSize: 18, 
     color: Colors.primary, 
-    fontWeight: '700',
+    fontWeight: 'bold',
     marginTop: 10,
   },
   emptyContainer: {
@@ -214,10 +221,11 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   emptyText: {
+    fontFamily: 'Cooper',
     textAlign: 'center',
     color: Colors.accent,
     marginTop: 15,
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: 'normal',
   },
 });

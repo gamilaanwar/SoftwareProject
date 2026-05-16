@@ -159,14 +159,16 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   welcome: {
+    fontFamily: 'Cooper',
     fontSize: 14,
     color: Colors.accent,
     marginBottom: 2,
-    fontWeight: '500',
+    fontWeight: 'bold',
   },
   title: {
+    fontFamily: 'Cooper',
     fontSize: 24,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.white,
   },
   list: {
@@ -191,8 +193,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   category: {
+    fontFamily: 'Cooper',
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: Colors.primary,
     flex: 1,
   },
@@ -203,10 +206,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   statusText: {
+    fontFamily: 'Cooper',
     fontSize: 10,
-    fontWeight: '800',
+    fontWeight: 'normal',
   },
   description: {
+    fontFamily: 'Cooper',
     fontSize: 14,
     color: Colors.secondary,
     marginBottom: 12,
@@ -221,9 +226,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   location: {
+    fontFamily: 'Cooper',
     fontSize: 12,
     color: Colors.primary,
-    fontWeight: '600',
+    fontWeight: 'normal',
     flex: 1,
   },
   cardFooter: {
@@ -235,9 +241,10 @@ const styles = StyleSheet.create({
     borderTopColor: '#F0F0F0',
   },
   date: {
+    fontFamily: 'Cooper',
     fontSize: 11,
     color: Colors.accent,
-    fontWeight: '500',
+    fontWeight: 'normal',
   },
   priorityRow: {
     flexDirection: 'row',
@@ -250,18 +257,20 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   priorityText: {
+    fontFamily: 'Cooper',
     fontSize: 11,
     color: Colors.secondary,
-    fontWeight: '700',
+    fontWeight: 'normal',
   },
   emptyContainer: {
     alignItems: 'center',
     marginTop: 60,
   },
   emptyText: {
+    fontFamily: 'Cooper',
     color: Colors.accent,
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: 'normal',
     marginTop: 10,
   },
 });

@@ -106,16 +106,18 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
+    fontFamily: 'Cooper',
     fontSize: 36,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.primary,
     letterSpacing: 1,
   },
   subtitle: {
+    fontFamily: 'Cooper',
     fontSize: 14,
     color: Colors.secondary,
     marginTop: 5,
-    fontWeight: '500',
+    fontWeight: 'normal',
     textAlign: 'center',
   },
   form: {
@@ -129,14 +131,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   label: {
+    fontFamily: 'Cooper',
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: 'normal',
     color: Colors.primary,
     marginBottom: 8,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   input: {
+    fontFamily: 'Cooper',
     height: 52,
     borderColor: Colors.accent,
     borderWidth: 1.5,
@@ -162,14 +166,16 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   buttonText: {
+    fontFamily: 'Cooper',
     color: Colors.white,
     fontSize: 17,
-    fontWeight: '700',
+    fontWeight: 'normal',
   },
   linkText: {
+    fontFamily: 'Cooper',
     color: Colors.secondary,
     textAlign: 'center',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: 'normal',
   },
 });

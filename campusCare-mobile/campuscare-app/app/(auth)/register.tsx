@@ -166,15 +166,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   title: {
+    fontFamily: 'Cooper',
     fontSize: 28,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.primary,
   },
   subtitle: {
+    fontFamily: 'Cooper',
     fontSize: 14,
     color: Colors.secondary,
     marginTop: 5,
-    fontWeight: '500',
+    fontWeight: 'normal',
     textAlign: 'center',
   },
   form: {
@@ -188,14 +190,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   label: {
+    fontFamily: 'Cooper',
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: 'normal',
     color: Colors.primary,
     marginBottom: 8,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   input: {
+    fontFamily: 'Cooper',
     height: 48,
     borderColor: Colors.accent,
     borderWidth: 1.5,
@@ -227,15 +231,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(11, 46, 51, 0.05)',
   },
   roleButtonText: {
+    fontFamily: 'Cooper',
     color: Colors.secondary,
-    fontWeight: '600',
+    fontWeight: 'normal',
     fontSize: 13,
     textAlign: 'center',
     paddingHorizontal: 4,
   },
   roleButtonTextActive: {
+    fontFamily: 'Cooper',
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
   },
   button: {
     backgroundColor: Colors.primary,
@@ -252,14 +258,16 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   buttonText: {
+    fontFamily: 'Cooper',
     color: Colors.white,
     fontSize: 17,
-    fontWeight: '700',
+    fontWeight: 'normal',
   },
   linkText: {
+    fontFamily: 'Cooper',
     color: Colors.secondary,
     textAlign: 'center',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: 'normal',
   },
 });

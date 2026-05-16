@@ -121,8 +121,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   name: {
+    fontFamily: 'Cooper',
     fontSize: 24,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.white,
     marginBottom: 8,
     paddingHorizontal: 20,
@@ -137,8 +138,9 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   roleText: {
+    fontFamily: 'Cooper',
     fontSize: 10,
-    fontWeight: '800',
+    fontWeight: 'normal',
     color: Colors.accent,
     letterSpacing: 1,
   },
@@ -147,8 +149,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   sectionTitle: {
+    fontFamily: 'Cooper',
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: Colors.primary,
     textTransform: 'uppercase',
     letterSpacing: 1,
@@ -185,15 +188,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoLabel: {
+    fontFamily: 'Cooper',
     fontSize: 11,
     color: Colors.accent,
-    fontWeight: '600',
+    fontWeight: 'normal',
     marginBottom: 2,
   },
   infoText: {
+    fontFamily: 'Cooper',
     fontSize: 15,
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
   },
   actionSection: {
     marginTop: 30,
@@ -216,16 +221,18 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   logoutText: {
+    fontFamily: 'Cooper',
     color: '#FF3B30',
     fontSize: 15,
-    fontWeight: '800',
+    fontWeight: 'normal',
     marginLeft: 10,
     textTransform: 'uppercase',
   },
   versionText: {
+    fontFamily: 'Cooper',
     marginTop: 15,
     fontSize: 11,
     color: Colors.accent,
-    fontWeight: '500',
+    fontWeight: 'normal',
   },
 });

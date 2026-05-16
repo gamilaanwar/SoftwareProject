@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   backButton: { marginRight: 15 },
-  headerTitle: { fontSize: 20, fontWeight: '800', color: Colors.white, flex: 1 },
+  headerTitle: { fontSize: 20, fontWeight: 'bold', color: Colors.white, flex: 1, fontFamily: 'Cooper' },
   scrollContent: { padding: 20, paddingBottom: 40 },
   mainCard: { 
     backgroundColor: Colors.surface, 
@@ -329,9 +329,10 @@ const styles = StyleSheet.create({
   },
   categoryTitle: {
     fontSize: 22,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.primary,
     flex: 1,
+    fontFamily: 'Cooper'
   },
   statusBadge: {
     paddingHorizontal: 10,
@@ -341,7 +342,8 @@ const styles = StyleSheet.create({
   },
   statusBadgeText: {
     fontSize: 10,
-    fontWeight: '800',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   imageContainer: {
     width: '100%',
@@ -369,8 +371,9 @@ const styles = StyleSheet.create({
   reporterText: {
     color: Colors.white,
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: 'normal',
     marginLeft: 4,
+    fontFamily: 'Cooper'
   },
   detailsGrid: {
     flexDirection: 'row',
@@ -386,9 +389,10 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 11,
     color: Colors.accent,
-    fontWeight: '700',
+    fontWeight: 'normal',
     textTransform: 'uppercase',
     marginBottom: 5,
+    fontFamily: 'Cooper'
   },
   priorityContainer: {
     flexDirection: 'row',
@@ -397,7 +401,8 @@ const styles = StyleSheet.create({
   detailValue: {
     fontSize: 15,
     color: Colors.primary,
-    fontWeight: '600',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   priorityDot: {
     width: 8,
@@ -412,13 +417,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.secondary,
     lineHeight: 20,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   sectionHeader: {
     fontSize: 17,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.primary,
     marginBottom: 12,
     marginTop: 5,
+    fontFamily: 'Cooper'
   },
   updatesCard: {
     backgroundColor: Colors.surface,
@@ -442,20 +450,24 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   commentAuthor: {
-    fontWeight: '800',
+    fontWeight: 'normal',
     fontSize: 11,
     color: Colors.primary,
     textTransform: 'uppercase',
+    fontFamily: 'Cooper'
   },
   commentDate: {
     fontSize: 10,
     color: Colors.accent,
-    fontWeight: '500',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   commentText: {
     fontSize: 13,
     color: Colors.secondary,
     lineHeight: 18,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   proofContainer: {
     marginTop: 10,
@@ -477,7 +489,8 @@ const styles = StyleSheet.create({
     color: Colors.accent,
     fontSize: 14,
     marginTop: 10,
-    fontWeight: '600',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   actionSection: {
     backgroundColor: Colors.surface,
@@ -517,10 +530,13 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: Colors.primary,
     fontSize: 12,
-    fontWeight: '800',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   actionButtonTextActive: {
     color: Colors.white,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   outlinedActionButton: {
     flex: 1,
@@ -536,9 +552,10 @@ const styles = StyleSheet.create({
   },
   outlinedActionButtonText: {
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
     fontSize: 13,
     marginLeft: 8,
+    fontFamily: 'Cooper'
   },
   smallActionButton: {
     backgroundColor: '#F0F8F9',
@@ -550,8 +567,9 @@ const styles = StyleSheet.create({
   },
   smallActionButtonText: {
     fontSize: 10,
-    fontWeight: '700',
+    fontWeight: 'normal',
     color: Colors.primary,
+    fontFamily: 'Cooper'
   },
   workerScroll: {
     flexDirection: 'row',
@@ -574,12 +592,14 @@ const styles = StyleSheet.create({
   },
   workerChipText: {
     color: Colors.primary,
-    fontWeight: '600',
+    fontWeight: 'normal',
     fontSize: 12,
+    fontFamily: 'Cooper'
   },
   workerChipTextActive: {
     color: Colors.white,
-    fontWeight: '700',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   centeredContainer: {
     flex: 1,
@@ -590,7 +610,8 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
     marginTop: 15,
+    fontFamily: 'Cooper'
   }
 });

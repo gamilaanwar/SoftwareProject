@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   backButton: { marginRight: 15 },
-  headerTitle: { fontSize: 20, fontWeight: '800', color: Colors.white, flex: 1 },
+  headerTitle: { fontSize: 20, fontWeight: 'bold', color: Colors.white, flex: 1, fontFamily: 'Cooper' },
   scrollContent: { padding: 20, paddingBottom: 40 },
   mainCard: { 
     backgroundColor: Colors.surface, 
@@ -249,9 +249,10 @@ const styles = StyleSheet.create({
   },
   categoryTitle: {
     fontSize: 22,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: Colors.primary,
     flex: 1,
+    fontFamily: 'Cooper'
   },
   statusBadge: {
     paddingHorizontal: 10,
@@ -261,7 +262,8 @@ const styles = StyleSheet.create({
   },
   statusBadgeText: {
     fontSize: 10,
-    fontWeight: '800',
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   locationContainer: {
     flexDirection: 'row',
@@ -274,8 +276,9 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 14,
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
     flex: 1,
+    fontFamily: 'Cooper'
   },
   descriptionSection: {
     marginTop: 5,
@@ -283,15 +286,18 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 11,
     color: Colors.accent,
-    fontWeight: '700',
+    fontWeight: 'normal',
     textTransform: 'uppercase',
     marginBottom: 8,
     letterSpacing: 0.5,
+    fontFamily: 'Cooper'
   },
   descriptionText: {
     fontSize: 14,
     color: Colors.secondary,
     lineHeight: 20,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   actionCard: { 
     backgroundColor: Colors.surface, 
@@ -306,10 +312,11 @@ const styles = StyleSheet.create({
   },
   sectionHeader: { 
     fontSize: 16, 
-    fontWeight: '800', 
+    fontWeight: 'bold', 
     color: Colors.primary,
     marginBottom: 12, 
-    marginTop: 5 
+    marginTop: 5,
+    fontFamily: 'Cooper'
   },
   buttonRow: { 
     flexDirection: 'row', 
@@ -332,10 +339,13 @@ const styles = StyleSheet.create({
   statusButtonText: { 
     color: Colors.primary, 
     fontSize: 12, 
-    fontWeight: '800' 
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   statusButtonTextActive: { 
-    color: Colors.white 
+    color: Colors.white,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   outlinedActionButton: { 
     flex: 1,
@@ -351,9 +361,10 @@ const styles = StyleSheet.create({
   },
   outlinedActionButtonText: { 
     color: Colors.primary, 
-    fontWeight: '700', 
+    fontWeight: 'normal', 
     fontSize: 13,
     marginLeft: 8,
+    fontFamily: 'Cooper'
   },
   input: { 
     borderWidth: 1.5, 
@@ -366,6 +377,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     minHeight: 80,
     textAlignVertical: 'top',
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   submitButton: { 
     backgroundColor: Colors.primary, 
@@ -382,8 +395,9 @@ const styles = StyleSheet.create({
   },
   submitButtonText: {
     color: Colors.white,
-    fontWeight: '800',
+    fontWeight: 'normal',
     fontSize: 15,
+    fontFamily: 'Cooper'
   },
   historyCard: {
     backgroundColor: Colors.surface,
@@ -407,19 +421,24 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   historyAuthor: {
-    fontWeight: '800',
+    fontWeight: 'normal',
     fontSize: 11,
     color: Colors.primary,
     textTransform: 'uppercase',
+    fontFamily: 'Cooper'
   },
   historyDate: {
     fontSize: 10,
     color: Colors.accent,
+    fontWeight: 'normal',
+    fontFamily: 'Cooper'
   },
   historyText: {
     fontSize: 13,
     color: Colors.secondary,
     lineHeight: 18,
+    fontFamily: 'Cooper',
+    fontWeight: 'normal'
   },
   proofImageContainer: {
     width: '100%',
@@ -441,7 +460,8 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: Colors.primary,
-    fontWeight: '700',
+    fontWeight: 'normal',
     marginTop: 15,
+    fontFamily: 'Cooper'
   }
 });
