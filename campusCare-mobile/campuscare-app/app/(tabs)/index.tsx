@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
   description: {
     fontFamily: 'Cooper',
     fontSize: 14,
+    fontWeight: 'normal',
     color: Colors.secondary,
     marginBottom: 12,
     lineHeight: 18,

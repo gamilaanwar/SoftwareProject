@@ -192,6 +192,8 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
   },
   filterTextActive: { 
+    fontFamily: 'Cooper',
+    fontWeight: 'normal',
     color: Colors.white 
   },
   list: {
@@ -239,6 +241,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     lineHeight: 18,
     fontSize: 13,
+    fontWeight: 'normal',
   },
   locationContainer: {
     flexDirection: 'row',

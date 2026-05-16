@@ -4,12 +4,22 @@ import Constants from 'expo-constants';
 const getBaseUrl = () => {
   // If we are in development, dynamically get the host IP from Expo Constants
   if (__DEV__) {
-    const debuggerHost = Constants.expoConfig?.hostUri || Constants.experienceUrl || '';
+    const debuggerHost = Constants.expoConfig?.hostUri || '';
     const localhost = debuggerHost.split(':')[0];
     
     if (localhost) {
+      // Check if it's an Android emulator (which often uses 10.0.2.2 to access host)
+      // or if it's a physical device/iOS emulator using the local network IP
       return `http://${localhost}:5001`;
     }
+
+    // Android emulator fallback if hostUri is unavailable
+    if (Platform.OS === 'android') {
+      return 'http://10.0.2.2:5001';
+    }
+
+    // iOS/Web fallback
+    return 'http://localhost:5001';
   }
 
   // Fallback for production or if debuggerHost is unavailable

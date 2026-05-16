@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
   subErrorText: {
     fontFamily: 'Cooper',
     fontSize: 15,
+    fontWeight: 'normal',
     color: Colors.secondary,
     textAlign: 'center',
     marginTop: 10,
@@ -209,6 +210,7 @@ const styles = StyleSheet.create({
   workerEmail: {
     fontFamily: 'Cooper',
     fontSize: 13,
+    fontWeight: 'normal',
     color: Colors.secondary,
     marginTop: 2,
     marginBottom: 8,

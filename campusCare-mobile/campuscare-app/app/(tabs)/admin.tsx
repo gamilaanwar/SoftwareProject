@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
   userEmail: { 
     fontFamily: 'Cooper',
     fontSize: 13, 
+    fontWeight: 'normal',
     color: Colors.secondary, 
     marginBottom: 8 
   },

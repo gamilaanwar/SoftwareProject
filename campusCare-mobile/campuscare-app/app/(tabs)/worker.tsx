@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: Colors.primary,
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     marginTop: 10,
     fontFamily: 'Cooper',
   }

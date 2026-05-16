@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 15,
     fontSize: 15,
+    fontWeight: 'normal',
     color: Colors.primary,
     backgroundColor: '#fff',
   },
