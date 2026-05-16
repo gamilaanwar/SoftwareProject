@@ -105,9 +105,9 @@ export default function RegisterScreen() {
             <Text style={styles.label}>Register as:</Text>
             <View style={styles.roleContainer}>
               {[
-                { label: 'Community', value: 'community_member' },
+                { label: 'Community Member', value: 'community_member' },
                 { label: 'Worker', value: 'worker' },
-                { label: 'Manager', value: 'facility_manager' },
+                { label: 'Facility Manager', value: 'facility_manager' },
                 { label: 'Admin', value: 'admin' },
               ].map((item) => (
                 <TouchableOpacity
@@ -230,6 +230,8 @@ const styles = StyleSheet.create({
     color: Colors.secondary,
     fontWeight: '600',
     fontSize: 13,
+    textAlign: 'center',
+    paddingHorizontal: 4,
   },
   roleButtonTextActive: {
     color: Colors.primary,
