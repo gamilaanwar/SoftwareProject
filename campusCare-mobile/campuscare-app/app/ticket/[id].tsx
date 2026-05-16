@@ -6,6 +6,7 @@ import { useAuth } from '../../src/context/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../src/constants/Colors';
+import { GIULogo } from '../../src/components/GIULogo';
 
 export default function TicketDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -136,6 +137,7 @@ export default function TicketDetailScreen() {
           <MaterialIcons name="arrow-back" size={24} color={Colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>Ticket Details</Text>
+        <GIULogo size="small" />
       </View>
       
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>

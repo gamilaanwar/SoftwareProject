@@ -71,4 +71,21 @@ const logout = async (req, res) => {
   res.json({ success: true, message: 'Logged out successfully' });
 };
 
-module.exports = { register, login, logout };
+const deleteAccount = async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const result = await db.query('DELETE FROM users WHERE user_id = $1 RETURNING *', [userId]);
+    
+    if (result.rowCount === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, message: 'Account deleted successfully' });
+  } catch (err) {
+    console.error('Delete Account Error:', err);
+    res.status(500).json({ success: false, message: 'Server error', error: err.message });
+  }
+};
+
+module.exports = { register, login, logout, deleteAccount };

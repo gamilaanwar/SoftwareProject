@@ -79,6 +79,7 @@ export const api = {
     login: (credentials: any) => request('/auth/login', { method: 'POST', body: JSON.stringify(credentials) }),
     register: (userData: any) => request('/auth/register', { method: 'POST', body: JSON.stringify(userData) }),
     logout: () => request('/auth/logout', { method: 'POST' }),
+    deleteAccount: () => request('/auth/delete', { method: 'DELETE' }),
   },
   issues: {
     submit: (issueData: any) => request('/issues', { method: 'POST', body: issueData }),

@@ -3,6 +3,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from "../../src/context/AuthContext";
 import { Colors } from "../../src/constants/Colors";
 import { Platform } from "react-native";
+import { GIULogo } from "../../src/components/GIULogo";
 
 export default function TabLayout() {
   const { user } = useAuth();
@@ -40,6 +41,7 @@ export default function TabLayout() {
         fontSize: 18,
       },
       headerTitleAlign: 'center',
+      headerRight: () => <GIULogo style={{ marginRight: 15 }} />,
     }}>
       <Tabs.Screen
         name="dashboard"

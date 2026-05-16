@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '../../src/context/AuthContext';
 import { api } from '../../src/services/api';
 import { Colors } from '../../src/constants/Colors';
+import { GIULogo } from '../../src/components/GIULogo';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -43,6 +44,7 @@ export default function LoginScreen() {
       >
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
+            <GIULogo size="medium" style={{ marginBottom: 20 }} />
             <Text style={styles.title}>CampusCare</Text>
             <Text style={styles.subtitle}>Maintenance Management System</Text>
           </View>

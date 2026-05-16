@@ -11,6 +11,7 @@ export default function ProfileScreen() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { width } = useWindowDimensions();
 
   const handleLogout = async () => {
@@ -19,14 +20,39 @@ export default function ProfileScreen() {
     setIsLoggingOut(true);
     
     try {
-      logout();
+      // Call backend logout while we still have the token
+      await api.auth.logout().catch(err => console.error('Logout API error:', err));
+    } finally {
+      // Always cleanup locally and redirect, even if API logout fails
+      await logout();
       router.replace('/');
-      api.auth.logout().catch(err => console.error('Logout API error:', err));
-    } catch (error) {
-      console.error('Logout error:', error);
-      Alert.alert('Logout Error', 'An error occurred. Please try again.');
-      setIsLoggingOut(false);
     }
+  };
+
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      "Delete Account",
+      "Are you sure you want to permanently delete your account? This action cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Delete", 
+          style: "destructive",
+          onPress: async () => {
+            setIsDeleting(true);
+            try {
+              await api.auth.deleteAccount();
+              await logout();
+              Alert.alert("Success", "Account deleted successfully.");
+              router.replace('/');
+            } catch (error: any) {
+              Alert.alert("Error", error.message || "Failed to delete account.");
+              setIsDeleting(false);
+            }
+          }
+        }
+      ]
+    );
   };
 
   return (
@@ -78,6 +104,21 @@ export default function ProfileScreen() {
               <>
                 <MaterialIcons name="logout" size={22} color="#FF3B30" />
                 <Text style={styles.logoutText}>Log Out</Text>
+              </>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.deleteButton, isDeleting && styles.deleteButtonDisabled]} 
+            onPress={handleDeleteAccount}
+            disabled={isDeleting || isLoggingOut}
+          >
+            {isDeleting ? (
+              <ActivityIndicator color="#FF3B30" size="small" />
+            ) : (
+              <>
+                <MaterialIcons name="delete-forever" size={22} color="#FF3B30" />
+                <Text style={styles.deleteText}>Delete Account</Text>
               </>
             )}
           </TouchableOpacity>
@@ -221,6 +262,29 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   logoutText: {
+    fontFamily: 'Cooper',
+    color: '#FF3B30',
+    fontSize: 15,
+    fontWeight: 'normal',
+    marginLeft: 10,
+    textTransform: 'uppercase',
+  },
+  deleteButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 59, 48, 0.05)',
+    width: '100%',
+    padding: 16,
+    borderRadius: 15,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255, 59, 48, 0.2)',
+    marginTop: 15,
+  },
+  deleteButtonDisabled: {
+    opacity: 0.6,
+  },
+  deleteText: {
     fontFamily: 'Cooper',
     color: '#FF3B30',
     fontSize: 15,

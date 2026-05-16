@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { api } from '../../src/services/api';
 import { Colors } from '../../src/constants/Colors';
+import { GIULogo } from '../../src/components/GIULogo';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -57,6 +58,7 @@ export default function RegisterScreen() {
       >
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
+            <GIULogo size="medium" style={{ marginBottom: 20 }} />
             <Text style={styles.title}>Join CampusCare</Text>
             <Text style={styles.subtitle}>Create your account</Text>
           </View>

@@ -6,6 +6,7 @@ import { api, IMAGE_BASE_URL } from '../../src/services/api';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '../../src/constants/Colors';
+import { GIULogo } from '../../src/components/GIULogo';
 
 export default function WorkerTaskScreen() {
   const { id } = useLocalSearchParams();
@@ -113,6 +114,7 @@ export default function WorkerTaskScreen() {
           <MaterialIcons name="arrow-back" size={24} color={Colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>Task Details</Text>
+        <GIULogo size="small" />
       </View>
       
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
